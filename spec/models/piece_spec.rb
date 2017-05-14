@@ -171,7 +171,7 @@ RSpec.describe Piece, type: :model do
     end
   end
 
-  describe "undo_move!" do
+  describe "#undo_move!" do
     before(:all) do
       @white = User.create(
         email: 'white@foobar.com',
