@@ -19,10 +19,6 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
-  # Join a Game
-  # Current_user_id becomes black_player_id
-  # For given game assign (update) current_user_id to black_player_id
-
   def update
     @game = Game.find(params[:id])
     black_player? unless @game.black_player_id.present?
