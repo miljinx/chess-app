@@ -6,7 +6,9 @@ class PiecesController < ApplicationController
 
   def update
     piece = Piece.find(params[:id])
-    update_firebase(piece.game.id, piece.is_black) if move_piece(piece)
+    if current_user == piece.user
+      update_firebase(piece.game.id, piece.is_black) if move_piece(piece)
+    end
     render json: piece.game.pieces
   end
 
