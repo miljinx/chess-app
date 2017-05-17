@@ -26,10 +26,10 @@
   };
   firebase.initializeApp(config);
 
-  var piecesURL = $('.chessboard').data('pieces-url'); console.log(piecesURL);
+  var piecesURL = $('.chessboard').data('pieces-url');
   var gameId = piecesURL.split('/')[2];
   var firebaseGame = firebase.database().ref(gameId);
-  console.log(firebaseGame);
+
 
   var whitePieceHtml = {
     King: '&#9812;',

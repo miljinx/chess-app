@@ -1,9 +1,7 @@
-<%= link_to "Sample Game (development)", game_path(Game.first) %>
-
 <% current_user = User.first %>
-
+<br />
 <%= button_to "Start a New Game", games_path, class: "btn btn-success" %>
-
+<br />
 <h1>Join A Game</h1>
 
 <% @games.each do |game| %>
