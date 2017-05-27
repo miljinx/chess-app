@@ -2,6 +2,7 @@ class GamesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :show, :update]
 
   def index
+    redirect_to new_user_session_path if !current_user
     @games = Game.available
   end
 
@@ -24,6 +25,7 @@ class GamesController < ApplicationController
     black_player? unless @game.black_player_id.present?
     if @game.valid?
       update_valid_game
+      update_firebase(@game.id)
     else
       render :index, text: "Not Allowed. Invalid Game"
     end
@@ -47,6 +49,12 @@ class GamesController < ApplicationController
     current_user.games << @game
     @game.populate_board if @game.pieces.empty?
     redirect_to @game
+  end
+
+  def update_firebase(game_id)
+    firebase = Firebase::Client.new(ENV["databaseURL"])
+    response = firebase.set(game_id, turn: 'white', created: Firebase::ServerValue::TIMESTAMP)
+    response.success?
   end
 
   def game_params

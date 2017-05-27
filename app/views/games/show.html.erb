@@ -1,9 +1,9 @@
-
 <br />
-
+<div class="booyah-box">
+  <h2 class="turn-display">Turn: </h2>
+  <h2 class="turn">Waiting for player to join...</h2>
+</div>
 <div class="container">
-  <%= button_to "Forfeit Game", forfeit_game_path(@game.id), class: "btn btn-danger" %>
-
   <div class="chessboard" data-pieces-url="<%= game_pieces_path(@game) %>">
     <% (0..7).each do |row| %>
       <% (0..7).each do |col| %>

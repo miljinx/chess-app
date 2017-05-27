@@ -1,15 +1,16 @@
-<% current_user = User.first %>
-<br />
-<%= button_to "Start a New Game", games_path, class: "btn btn-success" %>
-<br />
-<h1>Join A Game</h1>
-
+<div class="join-game-container">
+  <h1 class="open-games">Open Games</h1>
+  <%= button_to "Start a New Game", games_path, class: "btn btn-success join-game-btn" %>
+</div>
+<hr />
 <% @games.each do |game| %>
   <% user= User.find(game.white_player_id) %>
-  <%= user.screen_name %>
-  <%= form_for game do |f| %>
-    <%= f.hidden_field :black_player_id, value: current_user.id %>
-    <%= f.submit "Join Game" %>
-  <% end %>
-
+  <% next if game.black_player_id || user == current_user %>
+  <div class="booyah-box ">
+    <p>Player: <%= user.screen_name %></p>
+    <%= form_for game do |f| %>
+      <%= f.hidden_field :black_player_id, value: current_user.id %>
+      <%= f.submit "Join Game" %>
+    <% end %>
+  </div>
 <% end %>

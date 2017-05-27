@@ -27,12 +27,12 @@
           <a class="nav-link" </a>
        <% if user_signed_in? %>
           <li>
-            <%= link_to "Sign Out #{current_user.email}", destroy_user_session_path, method: :delete %>
+            <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'nav-link' %>
           </li>
 
           <% else %>
-          <li><%= link_to 'Sign In', new_user_session_path %></li>
-          <li><%= link_to 'Sign Up', new_user_registration_path %></li>
+          <li><%= link_to 'Sign In', new_user_session_path, class: 'nav-link' %></li>
+          <li><%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %></li>
         <% end %>
       </ul>
       </div><!-- /.navbar-collapse -->

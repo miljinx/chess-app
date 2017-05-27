@@ -24,7 +24,7 @@ class PiecesController < ApplicationController
 
   def update_firebase(game_id, is_black)
     firebase = Firebase::Client.new(ENV["databaseURL"])
-    turn = is_black ? 'White to move' : 'Black to move'
+    turn = is_black ? 'white' : 'black'
     response = firebase.set(game_id, turn: turn, created: Firebase::ServerValue::TIMESTAMP)
     response.success?
   end
