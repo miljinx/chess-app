@@ -4,6 +4,7 @@ class GamesController < ApplicationController
   def index
     redirect_to new_user_session_path if !current_user
     @games = Game.available
+    @all_games = Game.all
   end
 
   def create
@@ -18,6 +19,8 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    players = [@game.white_player_id, @game.black_player_id]
+    redirect_to games_path unless players.include?(current_user.id)
     @player_color = (@game.white_player_id == current_user.id) ? 'white' : 'black'
   end
 

@@ -1,13 +1,32 @@
+<h1 class="resume-games">Games in Progress</h1>
+<hr />
+<% @all_games.each do |game| %>
+  <% next if game.white_player_id != current_user.id && game.black_player_id != current_user.id %>
+  <% if game.white_player_id != current_user.id %>
+    <% user_id = game.white_player_id %>
+  <% else %>
+    <% user_id = game.black_player_id %>
+  <% end %>
+  <% opponent = user_id.nil? ? 'not joined' : User.find(user_id).screen_name %>
+  <div class="booyah-box ">
+    <p>Opponent: <%= opponent %></p>
+    <form action=<%= game_path(game) %>>
+      <input type="submit" value="Resume Game" />
+    </form>
+  </div>
+<% end %>
+<br />
+
 <div class="join-game-container">
   <h1 class="open-games">Open Games</h1>
   <%= button_to "Start a New Game", games_path, class: "btn btn-success join-game-btn" %>
 </div>
 <hr />
 <% @games.each do |game| %>
-  <% user= User.find(game.white_player_id) %>
+  <% user = User.find(game.white_player_id) %>
   <% next if game.black_player_id || user == current_user %>
   <div class="booyah-box ">
-    <p>Player: <%= user.screen_name %></p>
+    <p>Opponent: <%= user.screen_name %></p>
     <%= form_for game do |f| %>
       <%= f.hidden_field :black_player_id, value: current_user.id %>
       <%= f.submit "Join Game" %>

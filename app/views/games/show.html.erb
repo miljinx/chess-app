@@ -5,7 +5,7 @@
 </div>
 <div class="container" data-player-color="<%= @player_color %>">
   <div class="chessboard" data-pieces-url="<%= game_pieces_path(@game) %>">
-    <% (0..7).each do |row| %>
+    <% (7).downto(0).each do |row| %>
       <% (0..7).each do |col| %>
         <div class="square <%= (row + col) % 2 == 0 ? "light" : "dark" %>"
           id="<%= row.to_s + col.to_s %>"></div>
@@ -55,7 +55,11 @@
 
     firebaseGame.on('value', function(snapshot) {
       turn = snapshot.val().turn;
-      var turnHtml = '<h2 class="turn">' + turn + '</h2>'
+      if (turn === player_color) {
+        var turnHtml = '<h2 class="turn">' + turn + ' (you)</h2>';
+      } else {
+        var turnHtml = '<h2 class="turn">' + turn + ' (opponent)</h2>';
+      }
       $('.turn').remove();
       $('.booyah-box').append(turnHtml);
       requestPieces();
