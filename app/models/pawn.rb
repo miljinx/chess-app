@@ -20,6 +20,8 @@ class Pawn < Piece
   end
 
   def double_advance?(to_row, to_col)
+    p '==========================================================='
+    p moves.empty?
     to_row == row + forward_two && to_col == col && moves.empty?
   end
 

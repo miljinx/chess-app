@@ -43,6 +43,7 @@ class Piece < ApplicationRecord
     end
     moves.last.destroy
     update_attributes(row: from_row, col: from_col)
+    reload
   end
 
   def undo_capture!(piece_id, last_row, last_col)
@@ -87,6 +88,10 @@ class Piece < ApplicationRecord
     ally && ally.is_black == is_black ? true : false
   end
 
+  def move_legal?(to_row, to_col)
+    row == to_row || col == to_col || (row - to_row).abs == (col - to_col).abs
+  end
+
   def move_obstructed?(to_row, to_col)
     row_direction = to_row <=> row
     col_direction = to_col <=> col
@@ -100,11 +105,6 @@ class Piece < ApplicationRecord
       current_col += col_direction
     end
     false
-  end
-
-  def correct_turn?
-    last_move_number = game.moves.last ? game.moves.last.move_number : 0
-    (last_move_number.odd? && is_black) || (last_move_number.even? && !is_black)
   end
 
   def create_move!(from_row, from_col, move_type)
@@ -145,7 +145,6 @@ class Piece < ApplicationRecord
   protected
 
   def valid_move?(to_row, to_col)
-    return false unless correct_turn?
     return false if move_nil?(to_row, to_col)
     return false if move_out_of_bounds?(to_row, to_col)
     return false if move_destination_ally?(to_row, to_col)

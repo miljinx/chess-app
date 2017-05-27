@@ -3,7 +3,7 @@
   <h2 class="turn-display">Turn: </h2>
   <h2 class="turn">Waiting for player to join...</h2>
 </div>
-<div class="container">
+<div class="container" data-player-color="<%= @player_color %>">
   <div class="chessboard" data-pieces-url="<%= game_pieces_path(@game) %>">
     <% (0..7).each do |row| %>
       <% (0..7).each do |col| %>
@@ -29,6 +29,8 @@
   var piecesURL = $('.chessboard').data('pieces-url');
   var gameId = piecesURL.split('/')[2];
   var firebaseGame = firebase.database().ref(gameId);
+  var player_color = $('.container').data('player-color');
+  var turn;
 
 
   var whitePieceHtml = {
@@ -52,7 +54,7 @@
     requestPieces();
 
     firebaseGame.on('value', function(snapshot) {
-      var turn = snapshot.val().turn;
+      turn = snapshot.val().turn;
       var turnHtml = '<h2 class="turn">' + turn + '</h2>'
       $('.turn').remove();
       $('.booyah-box').append(turnHtml);
@@ -84,7 +86,9 @@
         var piece = $.parseHTML(
           '<div class="piece" data-id='+ piece.id +'>' + pieceHtml + '</div>');
         $('.square#'+squareId).append(piece);
-        $('.piece').draggable();
+        if (turn === player_color) {
+          $('.piece').draggable();
+        }
       }
     }
 

@@ -18,6 +18,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @player_color = (@game.white_player_id == current_user.id) ? 'white' : 'black'
   end
 
   def update
